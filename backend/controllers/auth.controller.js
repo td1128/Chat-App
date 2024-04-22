@@ -21,8 +21,8 @@ export const signup= async(req, res) => {
         console.log(hashedPassword);
 
         // Create new user
-        const boyProfilePic=`https://avatar.iran.liara.run/public/boy?username=${userName}`
-        const girlProfilePic=`https://avatar.iran.liara.run/public/girl?username=${userName}`
+        const boyProfilePic=`https://avatar.iran.liara.run/public/boy?userName=${userName}`
+        const girlProfilePic=`https://avatar.iran.liara.run/public/girl?userName=${userName}`
 
         const newUser = new User({
             fullName,
@@ -55,11 +55,11 @@ export const signup= async(req, res) => {
 
 export const login= async (req, res) => {
     try {
-        const {username,password} = req.body;
-        const user = await User.findOne({userName:username});
+        const {userName,password} = req.body;
+        const user = await User.findOne({userName:userName});
         const isCorrectPassword =await bcrypt.compare(password,user?.password || "");
         if(!user || !isCorrectPassword){
-            return res.status(400).json({error:'Invalid username or password'});
+            return res.status(400).json({error:'Invalid userName or password'});
         }
         generateTokenAndSetCookie(user._id,res);
         console.log("hello");
